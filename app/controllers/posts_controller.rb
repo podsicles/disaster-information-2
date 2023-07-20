@@ -28,7 +28,6 @@ class PostsController < ApplicationController
 
   def update
     if @post.update(post_params)
-      @post = Post.new(post_params)
       flash[:notice] = 'Post updated successfully'
       redirect_to session.delete(:return_to)
     else
