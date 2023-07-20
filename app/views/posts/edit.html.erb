@@ -1,0 +1,5 @@
+<h1>Edit Post id: <%= @post.id %></h1>
+
+<%= render partial: 'form', locals: { post: @post } %>
+
+<%= link_to 'Posts', posts_path %>
