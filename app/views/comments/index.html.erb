@@ -1,6 +1,6 @@
 <h1>Title: <%= @post.title %></h1>
 <%= link_to 'Post List', posts_path %>
-
+<%= link_to 'New Comment', new_post_comment_path %>
 <h2>Comments</h2>
 <ul>
   <% @comments.each do |comment| %>
