@@ -69,3 +69,4 @@ end
 
 gem 'devise'
 gem 'rest-client'
+gem 'active_model_serializers'
