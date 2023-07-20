@@ -1,5 +1,8 @@
 <h1>Category</h1>
-+
+
+<%= link_to 'Posts', posts_path %>
+<%= link_to 'New', new_category_path %>
+
 <ul>
   <% @categories.each do |category| %>
     <li>
@@ -10,4 +13,3 @@
   <% end %>
 </ul>
 
-<%= link_to 'new', new_category_path %>
