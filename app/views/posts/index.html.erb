@@ -12,6 +12,7 @@
   <thead>
   <td>Title</td>
   <td>Content</td>
+  <td>Category</td>
   <td>User</td>
   <td>Action</td>
   </thead>
@@ -19,6 +20,7 @@
     <tr>
       <td><%= post.title %></td>
       <td><%= post.content %></td>
+      <td><%= post.categories.pluck(:name).join(',') %></td>
       <td><%= post.user&.email %></td>
       <td>
         <%= link_to 'Show', post_path(post) %>
