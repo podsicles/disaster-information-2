@@ -1,0 +1,10 @@
+<span style="color: blue">Signed in as: <%= current_user.email %></span>
+<h1>My Posts</h1>
+
+<ul>
+  <% @posts.each do |post| %>
+    <li>Title: <%= post.title %><br>
+    Content: <%= post.content %><br>
+    <%= link_to 'Edit', edit_post_path(post) %></li>
+  <% end %>
+</ul>

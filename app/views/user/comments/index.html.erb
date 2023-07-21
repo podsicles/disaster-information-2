@@ -1,0 +1,11 @@
+<span style="color: blue">Signed in as: <%= current_user.email %></span>
+<h1>My Comments</h1> 
+
+<% @comments.each do |comment| %>
+  <ul>   
+    <li><strong><%= comment.user.email %>: </strong><%= comment.content %> 
+    <%= link_to 'Edit', edit_user_comment_path(comment) %>
+    (Comment from: <%= link_to comment.post.title, post_path(comment.post) %>)
+    </li>
+  </ul> 
+<% end %>
