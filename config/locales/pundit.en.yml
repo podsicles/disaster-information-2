@@ -1,0 +1,6 @@
+en:
+  pundit:
+    default: You are not authorized to perform this action
+    post_policy:
+      edit?: You are not authorized to edit this post
+      update?: You are not authorized to edit this post
