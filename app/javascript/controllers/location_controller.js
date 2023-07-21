@@ -7,111 +7,66 @@ export default class extends Controller {
   static targets = ['selectedRegionId', 'selectProvinceId', 'selectCityId', 'selectBarangayId']
 
   connect() {
-    this.fetchRegions()
+    console.log("random na string")
   }
 
-  fetchRegions() {
-    const target = this.selectedRegionIdTarget
-    $(target).empty()
+  fetchProvinces() {
+    let target = this.selectProvinceIdTarget
+    $(target).empty();
 
     $.ajax({
       type: 'GET',
-      url: '/api/v1/regions/',
+      url: `/api/v1/regions/${this.selectedRegionIdTarget.value}/provinces`,
       dataType: 'json',
       success: (response) => {
-        response.forEach(region => {
-          const option = document.createElement('option')
-          option.value = region.id
-          option.text = region.name
-          target.appendChild(option)
-        })
-
-        // Automatically select the first region, if available
-        if (response.length > 0) {
-          const firstRegionId = response[0].id
-          this.fetchProvinces(firstRegionId)
-        }
-      },
-      error: (error) => {
-        console.error("Error fetching regions:", error)
+        console.log(response)
+       $.each(response, function (index, record) {
+         let option = document.createElement('option')
+         option.value = record.id
+         option.text = record.name
+         target.appendChild(option)
+       })
       }
     })
   }
 
-  fetchProvinces(regionId) {
-    const target = this.selectProvinceIdTarget
-    $(target).empty()
 
+  fetchCities() {
+    let target = this.selectCityIdTarget
+    $(target).empty()
+    
     $.ajax({
       type: 'GET',
-      url: `/api/v1/regions/${regionId}/provinces`,
+      url: `/api/v1/provinces/${this.selectProvinceIdTarget.value}/cities`,
       dataType: 'json',
       success: (response) => {
-        response.forEach(province => {
-          const option = document.createElement('option')
-          option.value = province.id
-          option.text = province.name
-          target.appendChild(option)
-        })
-
-        // Automatically select the first province, if available
-        if (response.length > 0) {
-          const firstProvinceId = response[0].id
-          this.fetchCities(firstProvinceId)
-        }
-      },
-      error: (error) => {
-        console.error("Error fetching provinces:", error)
+        console.log(response)
+       $.each(response, function (index, record) {
+         let option = document.createElement('option')
+         option.value = record.id
+         option.text = record.name
+         target.appendChild(option)
+       })
       }
     })
   }
 
-  fetchCities(provinceId) {
-    const target = this.selectCityIdTarget
+  fetchBarangays() {
+    let target = this.selectBarangayIdTarget
     $(target).empty()
 
     $.ajax({
       type: 'GET',
-      url: `/api/v1/provinces/${provinceId}/cities`,
+      url: `/api/v1/cities/${this.selectCityIdTarget.value}/barangays`,
       dataType: 'json',
       success: (response) => {
-        response.forEach(city => {
-          const option = document.createElement('option')
-          option.value = city.id
-          option.text = city.name
-          target.appendChild(option)
-        })
-
-        // Automatically select the first city, if available
-        if (response.length > 0) {
-          const firstCityId = response[0].id
-          this.fetchBarangays(firstCityId)
-        }
-      },
-      error: (error) => {
-        console.error("Error fetching cities:", error)
-      }
-    })
-  }
-
-  fetchBarangays(cityId) {
-    const target = this.selectBarangayIdTarget
-    $(target).empty()
-
-    $.ajax({
-      type: 'GET',
-      url: `/api/v1/cities/${cityId}/barangays`,
-      dataType: 'json',
-      success: (response) => {
-        response.forEach(barangay => {
-          const option = document.createElement('option')
-          option.value = barangay.id
-          option.text = barangay.name
-          target.appendChild(option)
-        })
-      },
-      error: (error) => {
-        console.error("Error fetching barangays:", error)
+        console.log(response)
+       $.each(response, function (index, record) {
+         let option = document.createElement('option')
+         option.value = record.id
+         option.text = record.name
+         target.appendChild(option)
+       })
       }
     })
   }

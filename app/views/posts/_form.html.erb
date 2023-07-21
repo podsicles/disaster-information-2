@@ -23,19 +23,31 @@
   </div>
   <div>
     <%= form.label :region_id %>
-    <%= form.collection_select :region_id, Address::Region.all, :id, :name, prompt: 'Select Region', data: { target: 'locations.selectedRegionId', action: 'change->locations#fetchProvinces' } %>
+    <%= form.collection_select :address_region_id, Address::Region.all, 
+                                :id, :name, 
+                                { prompt: 'Select Region' }, 
+                                data: { location_target: 'selectedRegionId', action: 'change->location#fetchProvinces' } %>
   </div>
   <div>
     <%= form.label :province_id %>
-    <%= form.collection_select :province_id, [], :id, :name, prompt: 'Select Province', data: { target: 'locations.selectProvinceId', action: 'change->locations#fetchCities' } %>
+    <%= form.collection_select :address_province_id, 
+                                [], nil, nil, 
+                                { prompt: 'Select Province' }, 
+                                data: { location_target: 'selectProvinceId', action: 'change->location#fetchCities' } %>
   </div>
   <div>
     <%= form.label :city_id %>
-    <%= form.collection_select :city_id, [], :id, :name, prompt: 'Select City', data: { target: 'locations.selectCityId', action: 'change->locations#fetchBarangays' } %>
+    <%= form.collection_select :address_city_id, 
+                                [], nil, nil, 
+                                { prompt: 'Select City' }, 
+                                data: { location_target: 'selectCityId', action: 'change->location#fetchBarangays' } %>
   </div>
   <div>
     <%= form.label :barangay_id %>
-    <%= form.collection_select :barangay_id, [], :id, :name, prompt: 'Select Barangay', data: { target: 'locations.selectBarangayId' } %>
+    <%= form.collection_select :address_barangay_id, 
+                                [], :id, :name, 
+                                { prompt: 'Select Barangay' }, 
+                                data: { location_target: 'selectBarangayId' } %>
   </div>
   <%= form.submit %>
 <% end %>

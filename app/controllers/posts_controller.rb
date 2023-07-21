@@ -4,7 +4,7 @@ class PostsController < ApplicationController
   
 
   def index
-    @posts = Post.includes(:categories, :user, :region, :province).page(params[:page]).per(5)
+    @posts = Post.includes(:categories, :user, :region, :province, :city, :barangay).page(params[:page]).per(5)
   end
 
   def new
@@ -55,6 +55,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :content, :address, :address_region_id, :address_province_id, :deleted_at, category_ids: [])
+    params.require(:post).permit(:title, :content, :address, :address_region_id, :address_province_id, :address_city_id, :address_barangay_id, :deleted_at, category_ids: [])
   end
 end
