@@ -15,7 +15,8 @@
   <td>Title</td>
   <td>Content</td>
   <td>Category</td>
-  <td>Address</td>
+  <td>Disaster Address</td>
+  <td>Street</td>
   <td>User</td>
   <td>Action</td>
   <td>City</td>
@@ -26,7 +27,8 @@
       <td><%= post.title %></td>
       <td><%= post.content %></td>
       <td><%= post.categories.pluck(:name).join(',') %></td>
-      <td><%= "#{post.region&.name} #{post.province&.name} #{post.address}" %></td>
+      <td><%= "#{post.city&.name}, #{post.barangay&.name}" %></td>
+      <td><%= "#{post.address}" %></td>
       <td><%= post.user&.email %></td>
       <td>
         <%= link_to 'Show', post_path(post) %>
