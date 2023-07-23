@@ -11,12 +11,12 @@ class PostsController < ApplicationController
       format.xml { render xml: @posts.as_json }
       format.csv {
         csv_string = CSV.generate do |csv|
-          csv << ['Region', 'Province', 'City', 'Barangay']
+          csv << ['Region', 'Region Code', 'Province', 'Province Code', 'City', 'City Code' ,'Barangay', 'Barangay Code']
           regions.each do |region|
             region.provinces.each do |province|
               province.cities.each do |city|
                 city.barangays.each do |barangay|
-                  csv << [region.name, province.name, city.name, barangay.name]
+                  csv << [region.name, region.code, province.name, province.code, city.name, city.code, barangay.name, barangay.code]
                 end
               end
             end
@@ -93,7 +93,7 @@ class PostsController < ApplicationController
   end
 
   private
-  
+
   def generate_short_url
     format('%04d', rand(10_000))
   end
