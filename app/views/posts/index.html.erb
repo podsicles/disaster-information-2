@@ -18,6 +18,8 @@
   <td>Address</td>
   <td>User</td>
   <td>Action</td>
+  <td>City</td>
+  <td>Country</td>
   </thead>
   <% @posts.each do |post| %>
     <tr>
@@ -33,6 +35,8 @@
         <%= link_to 'New Comment', new_post_comment_path(post) %>
         <%= button_to 'Delete', post_path(post), method: :delete if policy(post).destroy? %>
       </td>
+      <td><%= Geocoder.search(post.ip_address).first&.city %></td>
+      <td><%= Geocoder.search(post.ip_address).first&.country %></td>
     </tr>
   <% end %>
 </table>
