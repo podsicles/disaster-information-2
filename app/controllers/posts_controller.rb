@@ -28,11 +28,23 @@ class PostsController < ApplicationController
   end
   
   def import
-    @post_import = PostImport.new(post_import_params)
-    if @post_import.save
-      redirect_to posts_path, notice: 'Posts imported successfully.'
+    if params[:csv].content_type == 'text/csv'
+      CSV.foreach(params[:csv].path) do |row|
+        region = Address::Region.find_or_initialize_by(name: row[0], code: row[1])
+        region.save
+  
+        province = Address::Province.find_or_initialize_by(name: row[2], code: row[3], region: region)
+        province.save
+  
+        city = Address::City.find_or_initialize_by(name: row[4], code: row[5], province: province)
+        city.save
+  
+        barangay = Address::Barangay.find_or_initialize_by(name: row[6], code: row[7], city: city)
+        barangay.save
+      end
+      redirect_to root_path, notice: 'CSV file imported successfully.'
     else
-      render :index
+      redirect_to root_path, alert: 'Invalid file format. Only CSV files are allowed.'
     end
   end
 
