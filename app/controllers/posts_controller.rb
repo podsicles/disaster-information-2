@@ -26,6 +26,14 @@ class PostsController < ApplicationController
       }
     end
   end
+  
+  def import
+    @post_import = PostImport.new(post_import_params)
+    if @post_import.save
+      redirect_to posts_path, notice: 'Posts imported successfully.'
+    else
+      render :index
+    end
   end
 
   def new
@@ -34,6 +42,7 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
+    @post.short_url = generate_short_url
     @post.user = current_user
     if Rails.env.development?
         @post.ip_address = Net::HTTP.get(URI.parse('http://checkip.amazonaws.com/')).squish
@@ -50,6 +59,15 @@ class PostsController < ApplicationController
   end
 
   def show; end
+
+  def show_short
+    @post = Post.find_by(short_url: params[:short_url])
+    if @post
+      render :show
+    else
+      redirect_to root_path, alert: 'Post not found.'
+    end
+  end
 
   def edit
     authorize @post, :edit?, policy_class: PostPolicy
@@ -75,6 +93,10 @@ class PostsController < ApplicationController
   end
 
   private
+  
+  def generate_short_url
+    format('%04d', rand(10_000))
+  end
 
   def set_post
     @post = Post.find(params[:id])

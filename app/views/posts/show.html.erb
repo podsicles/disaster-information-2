@@ -4,5 +4,9 @@
 <ul>
   <td>Post by <%= @post.user&.email %></td>
   <li><%= @post.title %></li>
-  <li><%= @post.content %></li>
+  <li><%= @post.content %></li>  <% if @post.short_url.present? %>
+    <li>Short URL: <%= link_to short_post_path(@post.short_url), short_post_path(@post.short_url) %></li>
+  <% else %>
+    <li>Short URL not available for this post.</li>
+  <% end %>
 </ul>

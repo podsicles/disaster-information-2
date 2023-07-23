@@ -18,4 +18,10 @@ class Post < ApplicationRecord
   def destroy
     update(deleted_at: Time.now)
   end
+
+  private
+
+  def generate_short_url
+    self.short_url = format('%04d', rand(10_000))
+  end
 end

@@ -4,10 +4,14 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   get "posts" => "posts#index"
+  get ':short_url', to: 'posts#show_short', as: :short_post
   root "posts#index"
 
   resources :posts do
     resources :comments, except: :show
+    collection do
+      post 'import', to: 'posts#import'
+    end
   end
   resources :categories, except: :show
 
