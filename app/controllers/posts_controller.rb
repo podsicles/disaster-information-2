@@ -28,7 +28,7 @@ class PostsController < ApplicationController
   end
   
   def import
-    if params[:csv].content_type == 'text/csv'
+    if params[:csv].present? && params[:csv].content_type == 'text/csv'
       CSV.foreach(params[:csv].path) do |row|
         region = Address::Region.find_or_initialize_by(name: row[0], code: row[1])
         region.save
