@@ -7,15 +7,12 @@ Rails.application.routes.draw do
 
   resources :posts do
     resources :comments, except: :show
-    collection do
-      post 'import', to: 'posts#import'
-    end
   end
 
   resources :categories, except: :show
 
   namespace :user do
-    resources :postsde
+    resources :posts
     resources :comments, except: :show
   end
 
@@ -36,7 +33,8 @@ Rails.application.routes.draw do
       resources :barangays, only: %i[index show], defaults: { format: :json }
     end
   end
-
-  get "posts" => "posts#index"
+  get "posts" => "posts#index"    
   get ':short_url', to: 'posts#show_short', as: :short_post
+  get 'import', to: 'import#index', as: :import_page
+  post 'import', to: 'posts#import'
 end
