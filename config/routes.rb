@@ -3,8 +3,6 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
-  get "posts" => "posts#index"
-  get ':short_url', to: 'posts#show_short', as: :short_post
   root "posts#index"
 
   resources :posts do
@@ -13,10 +11,11 @@ Rails.application.routes.draw do
       post 'import', to: 'posts#import'
     end
   end
+
   resources :categories, except: :show
 
   namespace :user do
-    resources :posts
+    resources :postsde
     resources :comments, except: :show
   end
 
@@ -37,4 +36,7 @@ Rails.application.routes.draw do
       resources :barangays, only: %i[index show], defaults: { format: :json }
     end
   end
+
+  get "posts" => "posts#index"
+  get ':short_url', to: 'posts#show_short', as: :short_post
 end
