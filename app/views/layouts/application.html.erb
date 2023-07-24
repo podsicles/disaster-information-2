@@ -2,17 +2,154 @@
 <html>
 <head>
   <title>App</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
-
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
-  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= stylesheet_link_tag 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css', integrity: 'sha384-5yr628gVl0ArxTZkI1F0Kl6cvLdmKQrZq8vQ4Z6jBIykmzXjyO+1EoNvE68kNC6m', crossorigin: 'anonymous' %>
+
+  <%= javascript_include_tag 'https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js', integrity: 'sha384-KyZXEAg3QhqLMpG8r+1rBT8UB+/4DwMz8n/lm51hNI6mW6qmxZ24W01oxIhW3UwD', crossorigin: 'anonymous' %>
+  <%= javascript_include_tag 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js', integrity: 'sha384-baSUGR/mQBPKKc3vY9HvT1PxXSF65+uu4L0n9XwuHzFmw8ZXQjF6MG5v4oelMCbi', crossorigin: 'anonymous' %>
+ <style>
+
+  body {
+    background-color: #15202b;
+    color: #f2f2f2;
+    margin: 0;
+  }
+
+  .navbar .container {
+    margin-top: 0;
+  }
+
+  .navbar {
+    width: 100%;
+    margin-top: 0;
+    padding-top: 0;
+  }
+  
+  .navbar-nav.mr-auto {
+    margin-left: auto;
+    margin-right: 5px;
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  .user-dropdown {
+    position: relative;
+  }
+
+  .user-dropdown .dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+  }
+
+  .user-dropdown:hover .dropdown-menu {
+    display: block;
+  }
+
+  .user-dropdown .nav-link {
+    color: #1da1f2;
+    margin-right: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  .navbar-dark .navbar-nav .nav-link {
+    color: #f2f2f2;
+  }
+
+  .navbar-collapse {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex: 1;
+  }
+  
+  .navbar {
+    background-color: #15202b;
+    border-bottom: 1px solid #38444d;
+  }
+
+  .navbar-nav .nav-link {
+      color: #1da1f2; 
+      margin-right: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      text-decoration: none;
+  }
+
+  a .nav-link {
+      color: #1da1f2; 
+      margin-right: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      text-decoration: none;
+  }
+  
+  .navbar-nav .nav-link:hover {
+    color: #1da1f2;
+    text-decoration: underline;
+  }
+
+  .dropdown-item-text {
+    color: #f2f2f2;
+  }
+
+  .dropdown-item-text:hover {
+    color: #f2f2f2;
+    text-decoration: underline;
+  }
+
+</style>
 </head>
 
 <body>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <%= link_to posts_path, class: 'navbar-brand ml-2' do %>
+        <span class="logo-text" style="color: #ffffff; font-size: 24px; font-weight: bold;">MDI</span>
+      <% end %>
+
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <%= link_to 'New', new_post_path, class: 'nav-link' %>
+          </li>
+          <li class="user-dropdown">
+            <%= link_to categories_path, class: 'nav-link dropdown-toggle', id: 'navbarDropdown', role: 'button', 'data-toggle': 'dropdown', 'aria-haspopup': 'true', 'aria-expanded': 'false' do %>
+              Categories
+            <% end %>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <span class="dropdown-item-text">COVID</span>
+              <span class="dropdown-item-text">Earthquake</span>
+              <span class="dropdown-item-text">Requirements</span>
+            </div>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'Export', posts_path(format: :csv, page: params[:page]), class: 'nav-link' %>
+          </li>
+        </ul>
+        <% if user_signed_in? %>
+          <div class="user-dropdown">
+            <a class="nav-link dropdown-toggle" href="http://localhost:3000/user/posts" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Hello, <%= current_user.email %>!
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <%= link_to 'Sign out', destroy_user_session_path, class: 'dropdown-item', data: { 'turbo-method': :delete } %>
+              <%= link_to 'My Posts', user_posts_path, class: 'dropdown-item' %>
+              <%= link_to 'My Comments', user_comments_path, class: 'dropdown-item' %>
+            </div>
+          </div>
+        <% else %>
+          <%= link_to 'Sign in', new_user_session_path, class: 'nav-link' %>
+        <% end %>
+      </div>
+    </div>
+  </nav>
   <% if flash[:notice] %>
     <p class="notice"><%= notice %></p>
   <% end %>
@@ -20,13 +157,7 @@
     <p class="alert"><%= alert %></p>
   <% end %>
   <%= yield %>
-
-  <% if user_signed_in? %>
-    <%= link_to 'Sign out', destroy_user_session_path, data: { 'turbo-method': :delete } %>
-  <% else %>
-    <%= link_to 'Sign in', new_user_session_path %>
-  <% end %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   <%= javascript_include_tag 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js', integrity: 'sha384-baSUGR/mQBPKKc3vY9HvT1PxXSF65+uu4L0n9XwuHzFmw8ZXQjF6MG5v4oelMCbi', crossorigin: 'anonymous' %>
-  </body>
+</body>
 </html>

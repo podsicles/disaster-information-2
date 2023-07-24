@@ -1,10 +1,61 @@
-<span style="color: blue">Signed in as: <%= current_user.email %></span>
-<h1>My Posts</h1>
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<ul>
-  <% @posts.each do |post| %>
-    <li>Title: <%= post.title %><br>
-    Content: <%= post.content %><br>
-    <%= link_to 'Edit', edit_post_path(post) %></li>
-  <% end %>
-</ul>
+  <style>
+    body {
+      background-color: #15202b;
+      color: #f2f2f2;
+    }
+
+    .signed-in-text {
+      color: #1da1f2;
+    }
+
+    .page-header {
+      font-size: 36px;
+      color: white;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .post-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .post-item {
+      margin-bottom: 20px;
+    }
+
+    .post-title {
+      font-weight: bold;
+      color: #f2f2f2;
+    }
+
+    .post-content {
+      color: #f2f2f2;
+    }
+
+    .edit-link {
+      color: #1da1f2;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-header text-center">
+    My Posts
+  </div>
+
+  <ul class="post-list">
+    <% @posts.each do |post| %>
+      <li class="post-item">
+        <span class="post-title">Title: <%= post.title %></span><br>
+        <span class="post-content">Content: <%= post.content %></span><br>
+        <%= link_to 'Edit', edit_post_path(post), class: 'edit-link' %>
+      </li>
+    <% end %>
+  </ul>
+</body>
+</html>

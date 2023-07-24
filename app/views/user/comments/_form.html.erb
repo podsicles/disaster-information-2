@@ -1,14 +1,82 @@
-<%= form_with(model: @comment, url: user_comment_path(@comment), method: :patch) do |form| %>
-  <% if @comment.errors.any? %>
-    <ul>
-      <% comment.errors.each do |error| %>
-        <li><%= error.full_message %></li>
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #15202b;
+      color: #f2f2f2;
+    }
+
+    .form-container {
+      background-color: #1c2733;
+      padding: 20px;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+
+    .form-label {
+      color: #f2f2f2;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #38444d;
+      border-radius: 5px;
+      background-color: #22254d;
+      color: #f2f2f2;
+      margin-bottom: 20px;
+    }
+
+    .error-list {
+      list-style: none;
+      color: #ff6666;
+      margin-bottom: 20px;
+    }
+
+    .submit-button {
+      background-color: #29387f;
+      color: #f2f2f2;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .submit-button:hover {
+      background-color: white;
+      color: #29387f;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <%= form_with(model: @comment, url: user_comment_path(@comment), method: :patch) do |form| %>
+      <% if @comment.errors.any? %>
+        <ul class="error-list">
+          <% @comment.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
       <% end %>
-    </ul>
-  <% end %>
-  <div>
-    <%= form.label :content %>
-    <%= form.text_field :content %>
+
+      <div class="form-label">
+        <%= form.label :content %>
+      </div>
+      <div class="form-input">
+        <%= form.text_field :content %>
+      </div>
+
+      <div>
+        <%= form.submit 'Submit', class: 'submit-button' %>
+      </div>
+    <% end %>
   </div>
-  <%= form.submit %>
-<% end %>
+
+</body>
+</html>

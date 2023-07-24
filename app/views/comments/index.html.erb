@@ -1,15 +1,87 @@
-<h1>Title: <%= @post.title %></h1>
-<%= link_to 'Post List', posts_path %>
-<%= link_to 'New Comment', new_post_comment_path %>
-<h2>Comments</h2>
-<ul>
-  <% @comments.each do |comment| %>
-    <li>
-      <%= comment.content %>(<%= comment.created_at %>) by <%= comment.user&.email %> 
-      <%= link_to 'Edit', edit_post_comment_path(@post, comment) if user_signed_in? && comment.user == current_user %>
-      <%= button_to 'Delete', post_comment_path(@post, comment), method: :delete if user_signed_in? && comment.user == current_user %>
-    </li>
-  <% end %>
-</ul>
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<%= paginate @comments %>
+  <style>
+    body {
+      background-color: #15202b;
+      color: #f2f2f2; 
+    }
+
+    .container {
+      margin-top: 20px;
+    }
+
+    .page-header {
+      font-size: 36px;
+      color: white; 
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .link-text {
+      color: #1da1f2; 
+      text-decoration: none; 
+    }
+
+    .link-text:hover {
+      text-decoration: underline; 
+    }
+
+    .comment-section {
+      background-color: #15202b; 
+      padding: 20px;
+      border-radius: 5px;
+    }
+
+    .comment-content {
+      color: #f2f2f2; 
+    }
+
+    .comment-meta {
+      color: #6e767d; 
+    }
+
+    .comment-actions {
+      margin-top: 10px;
+    }
+
+    .btn {
+      background-color: #29387f; 
+      color: #f2f2f2; 
+      border: none; 
+    }
+
+    .btn:hover {
+      background-color: white; 
+      color: #29387f; 
+    }
+  </style>
+</head>
+<body>
+  <h1 class="page-header ml-3 text-center">Title: <%= @post.title %></h1>
+
+  <div class="container">
+    <p><%= link_to 'New Comment', new_post_comment_path, class: 'btn btn-sm btn-danger' %></p>
+  </div>
+
+  <div class="container comment-section">
+    <h2 class="comment-content">Comments</h2>
+    <ul>
+      <% @comments.each do |comment| %>
+        <li>
+          <%= comment.content %> (<%= comment.created_at %>) by <%= comment.user&.email %>
+          <% if user_signed_in? && comment.user == current_user %>
+            <%= link_to 'Edit', edit_post_comment_path(@post, comment), class: 'btn btn-sm btn-danger' %>
+            <%= button_to 'Delete', post_comment_path(@post, comment), method: :delete, class: 'btn btn-sm btn-danger' %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <%= paginate @comments %>
+
+</body>
+</html>

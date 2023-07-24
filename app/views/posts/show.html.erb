@@ -1,12 +1,94 @@
-<h1>Show Post: <%= @post.id %></h1>
-<%= link_to 'Posts', posts_path %>
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<ul>
-  <td>Post by <%= @post.user&.email %></td>
-  <li><%= @post.title %></li>
-  <li><%= @post.content %></li>  <% if @post.short_url.present? %>
-    <li>Short URL: <%= link_to short_post_path(@post.short_url), short_post_path(@post.short_url) %></li>
-  <% else %>
-    <li>Short URL not available for this post.</li>
-  <% end %>
-</ul>
+  <style>
+    body {
+      background-color: #15202b;
+      color: #f2f2f2;
+    }
+
+    .container {
+      margin-top: 20px;
+    }
+
+    .page-header {
+      font-size: 36px;
+      color: white;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .back-link {
+      color: #1da1f2;
+    }
+
+    table {
+      width: 100%;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #38444d;
+    }
+
+    .short-url-link {
+      color: #1da1f2;
+    }
+
+    .short-url-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1 class="page-header ml-3 text-center">Show Post: <%= @post.id %></h1>
+
+  <div class="container">
+    <table>
+      <tr>
+        <th>Post by:</th>
+        <td><%= @post.user&.email %></td>
+      </tr>
+      <tr>
+        <th>Title:</th>
+        <td><%= @post.title %></td>
+      </tr>
+      <tr>
+        <th>Content:</th>
+        <td><%= @post.content %></td>
+      </tr>
+      <tr>
+        <th>Category:</th>
+        <td>
+          <%= @post.categories.pluck(:name).join(',') %>
+        </td>
+      </tr>
+      <tr>
+        <th>Disaster Address:</th>
+        <td><%= "#{@post.city&.name}, #{@post.barangay&.name}" %></td>
+      </tr>
+      <tr>
+        <th>Location:</th>
+        <td>
+          <%= Geocoder.search(@post.ip_address).first&.city %>
+          <%= Geocoder.search(@post.ip_address).first&.country %>
+        </td>
+      </tr>
+      <% if @post.short_url.present? %>
+        <tr>
+          <th>Short URL:</th>
+          <td><%= link_to short_post_path(@post.short_url), short_post_path(@post.short_url), class: 'short-url-link' %></td>
+        </tr>
+      <% else %>
+        <tr>
+          <th>Short URL:</th>
+          <td>Short URL not available for this post.</td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</body>
+</html>

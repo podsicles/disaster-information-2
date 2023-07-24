@@ -1,15 +1,111 @@
-<h1>Category</h1>
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<%= link_to 'Posts', posts_path %>
-<%= link_to 'New', new_category_path %>
+  <style>
+    body {
+      background-color: #15202b;
+      color: #f2f2f2; 
+    }
 
-<ul>
-  <% @categories.each do |category| %>
-    <li>
-      <%= category.name %>
-      <%= link_to :edit, edit_category_path(category) %>
-      <%= button_to :delete, category_path(category), method: :delete %>
-    </li>
-  <% end %>
-</ul>
+    h1 {
+      font-size: 36px;
+      color: #1da1f2; 
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
 
+    .nav-links {
+      margin-top: 20px;
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    .nav-link {
+      color: #1da1f2; 
+      margin-right: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .nav-link:hover {
+      text-decoration: underline;
+    }
+
+    .category-list {
+      list-style-type: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+
+    .category-item {
+      background-color: #1c2733; 
+      color: #f2f2f2; 
+      padding: 8px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    .edit-link,
+    .delete-button {
+      color: #1da1f2; 
+      margin-right: 10px;
+      text-decoration: none;
+    }
+
+    .edit-link:hover,
+    .delete-button:hover {
+      text-decoration: underline;
+    }
+
+    .delete-button {
+      background-color: transparent;
+      border: none; 
+      cursor: pointer;
+    }
+
+    .delete-button::-moz-focus-inner {
+      border: 0;
+    }
+
+    .delete-button:focus {
+      outline: none;
+    }
+
+    .new-link {
+      background-color: #29387f; 
+      color: #f2f2f2; 
+      padding: 8px 16px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .new-link:hover {
+      background-color: white; 
+      color: #29387f; 
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <h1 class="text-center">Category</h1>
+
+  <div class="nav-links">
+    <%= link_to 'New', new_category_path, class: 'new-link' %>
+  </div>
+
+  <ul class="category-list">
+    <% @categories.each do |category| %>
+      <li class="category-item">
+        <%= category.name %>
+        <%= link_to 'Edit', edit_category_path(category), class: 'edit-link' %>
+        <%= button_to 'Delete', category_path(category), method: :delete, class: 'delete-button', data: { confirm: 'Are you sure?' } %>
+      </li>
+    <% end %>
+  </ul>
+
+</body>
+</html>

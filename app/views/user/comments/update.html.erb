@@ -1,5 +1,41 @@
-<h1>Comment Updated</h1>
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<p>The comment was successfully updated.</p>
+  <style>
+    body {
+      background-color: #15202b; 
+      color: #f2f2f2; 
+    }
 
-<%= link_to 'Back to Comments', user_comments_path %>
+    .page-header {
+      font-size: 36px;
+      color: white; 
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .success-message {
+      color: #1da1f2; 
+    }
+
+    .back-link {
+      color: #1da1f2; 
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-header text-center">
+    Comment Updated
+  </div>
+  <p class="success-message">The comment was successfully updated.</p>
+  <%= link_to 'Back to Comments', user_comments_path, class: 'back-link' %>
+
+</body>
+</html>

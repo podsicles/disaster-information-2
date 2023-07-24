@@ -1,4 +1,83 @@
-<h1>New category</h1>
-<%= link_to 'Posts', posts_path %>
-<%= link_to 'Category', categories_path %>
-<%= render partial: 'form', locals: { category: @category, path: categories_path } %>
+<!DOCTYPE html>
+<html>
+<head>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #15202b;
+      color: #f2f2f2; 
+    }
+
+    h1 {
+      font-size: 36px;
+      color: #1da1f2; 
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .nav-links {
+      margin-top: 20px;
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    .nav-link {
+      color: #1da1f2; 
+      margin-right: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .nav-link:hover {
+      text-decoration: underline;
+    }
+
+    .form-section {
+      background-color: #1c2733; 
+      color: #f2f2f2; 
+      padding: 20px;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+
+    .form-label {
+      color: #f2f2f2; 
+    }
+
+    .form-field {
+      background-color: #1c2733; 
+      color: #f2f2f2; 
+      border: none; 
+      border-radius: 5px;
+      padding: 8px;
+      width: 100%;
+    }
+
+    .btn {
+      background-color: #29387f; 
+      color: #f2f2f2; 
+      border: none; 
+    }
+
+    .btn:hover {
+      background-color: white; 
+      color: #29387f; 
+    }
+  </style>
+</head>
+<body>
+  <h1 class="text-center">New category</h1>
+
+  <div class="nav-links">
+    <%= link_to 'Posts', posts_path, class: 'nav-link' %>
+    <%= link_to 'Category', categories_path, class: 'nav-link' %>
+  </div>
+  <div class="container form-section">
+    <%= render partial: 'form', locals: { category: @category, path: categories_path } %>
+  </div>
+
+</body>
+</html>

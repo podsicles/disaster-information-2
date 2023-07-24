@@ -1,47 +1,127 @@
-<% if user_signed_in? %>
-  <h2> Hello, <%= current_user.email %>! </h2>
-  <%= link_to 'Sign out', destroy_user_session_path, data: { 'turbo-method': :delete } %>
-<% else %>
-  <%= link_to 'Sign in', new_user_session_path %>
-<% end %>
+<!DOCTYPE html>
+<html>
+<head>
 
-<h1>Makati Disaster Information</h1>
-<%= link_to 'Export', posts_path(format: :csv, page: params[:page]) %>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<%= link_to 'New', new_post_path %>
-<%= link_to 'Categories', categories_path %>
+  <style>
+    body {
+      background-color: #15202b;
+      color: #f2f2f2;
+    }
 
-<table>
-  <thead>
-  <td>Title</td>
-  <td>Content</td>
-  <td>Category</td>
-  <td>Disaster Address</td>
-  <td>Street</td>
-  <td>User</td>
-  <td>Action</td>
-  <td>City</td>
-  <td>Country</td>
-  </thead>
-  <% @posts.each do |post| %>
-    <tr>
-      <td><%= post.title %></td>
-      <td><%= post.content %></td>
-      <td><%= post.categories.pluck(:name).join(',') %></td>
-      <td><%= "#{post.city&.name}, #{post.barangay&.name}" %></td>
-      <td><%= "#{post.address}" %></td>
-      <td><%= post.user&.email %></td>
-      <td>
-        <%= link_to 'Show', post_path(post) %>
-        <%= link_to 'Edit', edit_post_path(post) if policy(post).edit? %>
-        <%= link_to 'Comments', post_comments_path(post) %>
-        <%= link_to 'New Comment', new_post_comment_path(post) %>
-        <%= button_to 'Delete', post_path(post), method: :delete if policy(post).destroy? %>
-      </td>
-      <td><%= Geocoder.search(post.ip_address).first&.city %></td>
-      <td><%= Geocoder.search(post.ip_address).first&.country %></td>
-    </tr>
-  <% end %>
-</table>
+    .container {
+      margin-top: 20px;
+    }
 
-<%= paginate @posts %>
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #1f2429;
+      color: white;
+    }
+
+    .table th,
+    .table td {
+      padding: 8px;
+      text-align: left;
+      border: none;
+    }
+
+    .table thead th {
+      background-color: #white;
+      color: black;
+    }
+
+    .table-hover tbody tr:hover {
+      background-color: #2c3238;
+    }
+
+    .form-inline .form-control {
+      width: auto;
+      margin-right: 10px;
+    }
+
+    .page-header {
+      font-size: 36px;
+      color: white;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .import-links {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .btn {
+      background-color: #2c3238;
+      color: #f2f2f2;
+      border: none;
+    }
+
+    .btn:hover {
+      background-color: white;
+      color: #29387f;
+    }
+  </style>
+</head>
+<body>
+  <div class="container text-center">
+    <div class="page-header">
+      Makati Disaster Information Forum
+    </div>
+  </div>
+
+  <div class="container">
+    <table class="table table-bordered table-striped table-hover ">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Content</th>
+          <th>Category</th>
+          <th>Disaster Address</th>
+          <th>Street</th>
+          <th>User</th>
+          <th>Action</th>
+          <th>City</th>
+          <th>Country</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @posts.each do |post| %>
+          <tr>
+            <td><%= post.title %></td>
+            <td><%= post.content %></td>
+            <td><%= post.categories.pluck(:name).join(',') %></td>
+            <td><%= "#{post.city&.name}, #{post.barangay&.name}" %></td>
+            <td><%= "#{post.address}" %></td>
+            <td><%= post.user&.email %></td>
+            <td>
+              <%= link_to 'Show', post_path(post), class: 'btn btn-sm btn-info' %>
+              <%= link_to 'Edit', edit_post_path(post), class: 'btn btn-sm btn-warning' if policy(post).edit? %>
+              <%= link_to 'Comments', post_comments_path(post), class: 'btn btn-sm btn-primary' %>
+              <%= link_to 'New Comment', new_post_comment_path(post), class: 'btn btn-sm btn-secondary' %>
+              <%= button_to 'Delete', post_path(post), method: :delete, class: 'btn btn-sm btn-danger' if policy(post).destroy? %>
+            </td>
+            <td><%= Geocoder.search(post.ip_address).first&.city %></td>
+            <td><%= Geocoder.search(post.ip_address).first&.country %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="import-links">
+    <%= form_with url: import_page_path, method: :post, multipart: true, class: 'form-inline' do |form| %>
+      <div class="input-group">
+        <%= form.file_field :csv, class: 'form-control' %>
+        <button type="submit" class="btn btn-primary ml-2">Import CSV</button>
+      </div>
+    <% end %>
+  </div>
+
+  <%= paginate @posts %>
+
+</body>
+</html>

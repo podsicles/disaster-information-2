@@ -1,14 +1,62 @@
-<%= form_with model: comment, url: path, data: { turbo: false } do |form| %>
-  <% if comment.errors.any? %>
-    <ul>
-      <% comment.errors.each do |error| %>
-        <li><%= error.full_message %></li>
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #15202b; 
+      color: #f2f2f2; 
+    }
+
+    .form-label {
+      color: #f2f2f2; 
+    }
+
+    .form-control {
+      background-color: #192734;
+      color: #ffffff;
+      border-color: #38444d;
+    }
+
+    .form-field {
+      background-color: #1c2733; 
+      color: #f2f2f2; 
+      border: none; 
+      border-radius: 5px;
+      padding: 8px;
+      width: 100%;
+    }
+
+    .btn {
+      background-color: #29387f; 
+      color: #f2f2f2; 
+      border: none; 
+    }
+
+    .btn:hover {
+      background-color: white; 
+      color: #29387f; 
+    }
+  </style>
+</head>
+<body>
+  <div class="container form-section">
+    <%= form_with model: comment, url: path, data: { turbo: false } do |form| %>
+      <% if comment.errors.any? %>
+        <ul>
+          <% comment.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
       <% end %>
-    </ul>
-  <% end %>
-  <div>
-    <%= form.label :content %>
-    <%= form.text_field :content %>
+      <div>
+        <%= form.label :content %>
+        <%= form.text_field :content, class: 'form-control' %>
+      </div>
+      <%= form.submit 'Submit', class: 'btn' %>
+    <% end %>
   </div>
-  <%= form.submit %>
-<% end %>
+
+</body>
+</html>
