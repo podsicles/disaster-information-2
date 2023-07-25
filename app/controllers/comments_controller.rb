@@ -15,6 +15,11 @@ class CommentsController < ApplicationController
   def create
     @comment = @post.comments.build(comment_params)
     @comment.user = current_user
+    if Rails.env.development?
+      @comment.ip_address = Net::HTTP.get(URI.parse('http://checkip.amazonaws.com/')).squish
+    else
+      @comment.ip_address = request.remote_ip
+    end
     if @comment.save
       flash[:notice] = 'Comment created successfully'
       redirect_to post_comments_path(@post)
